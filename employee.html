@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee data</title>
+    <style>
+        #main{
+            border: 1px solid black;
+            height: 400px;
+            width: 700px;
+            margin: auto;
+        }
+        tr,th,td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+        
+            <form id="form">
+                    <label for="name">Employee Name :</label>
+                    <input type="text" id="name" placeholder="Enter Name" name="name"/><br/><br/>
+
+                    <label for="dept">Department : </label>
+                    <select id="department" name="dept">
+                        <option value="">--Enter Department--</option>
+                        <option value="it">IT</option>
+                        <option value="mechanical">Mechanical</option>
+                        <option value="electical">Electrical</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="cse">Computer Science</option>
+                    </select><br/><br/>
+
+                    <label for="year1" name="sales1">Sales year 1</label>
+                    <input type="number" id="year1" placeholder="Enter Sales Year 1" name="sales1"/><br/><br/>
+                    <label for="year2">Sales year 1</label>
+                    <input type="number" id="year2" placeholder="Enter Sales Year 2" name="sales2"/>
+
+                    <input type="submit" id="submit"/>
+                    
+
+            </form>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Department</th>
+                        <th>Sales Year 1</th>
+                        <th>Sales Year 2</th>
+                        <th>Average Sales</th>
+                    </tr>
+                </thead>
+
+
+                <tbody id="tableData">
+                    <button id="ascending">Ascending</button>
+                    <button id="descending">Descending</button>
+                </tbody>
+            </table>
+            
+
+
+<script>
+         var employeeArr =[]; var ascArr = [];
+         var desArr = [];
+         var form = document.querySelector('form')
+         form.addEventListener('submit',addRows)
+         
+         var form2 = document.querySelector('form')
+         form2.addEventListener('submit', averageSales)
+         
+         function averageSales(event){
+             var sales1 = document.querySelector('#year1').value
+             var sales2 = document.querySelector('#year2').value
+             var avg = Math.floor(Number(sales1) + Number(sales2)/2);
+             return avg;
+         }
+
+
+         var tbody = document.querySelector('tbody'); 
+
+
+         function addRows(event){
+                event.preventDefault();
+                    var name = document.querySelector('#name').value
+                    var department = document.querySelector('#department').value
+                    var sales1 =document.querySelector('#year1').value
+                    var sales2 = document.querySelector('#year2').value
+
+                    
+                    var tr = document.createElement('tr');
+                        
+                        var td1 = document.createElement('td');
+                        td1.innerText = name;
+
+                        var td2 = document.createElement('td');
+                        td2.innerText = department;
+
+                        var td3 = document.createElement('td');
+                        td3.innerText = sales1;
+
+                        var td4 = document.createElement('td')
+                        td4.innerText = sales2
+
+
+                        var td5 = document.createElement('td');
+                        td5.innerText = averageSales();
+
+                        tr.append(td1,td2,td3,td4,td5)
+                        tbody.append(tr);
+                    
+                        ascArr.push([name,department,sales1,sales2,averageSales()])
+                        
+                        desArr.push([name,department,sales1,sales2,averageSales()])
+                        
+                        form.reset()
+         }
+
+         var ascBtn = document.querySelector('#ascending')
+         ascBtn.addEventListener('click',ascending);
+
+        function ascending(){
+             ascArr.sort(function(a,b){
+                 return a[4] - b[4]
+             })
+            var row = document.querySelectorAll("tr");
+                for (var i = 0; i < ascArr.length; i++)  {
+                row[i+1].innerHTML = `<td>${ascArr[i][0]}</td>
+                                      <td>${ascArr[i][1]}</td>
+                                      <td>${ascArr[i][2]}</td>
+                                      <td>${ascArr[i][3]}</td>
+                                      <td>${ascArr[i][4]}</td>`
+            }
+        }
+        
+            
+         var dscBtn = document.querySelector('#descending')
+         dscBtn.addEventListener('click',descending);      
+         
+         function descending(){
+             desArr.sort(function(a,b){
+                 return b[4] - a[4]
+             })
+            var row = document.querySelectorAll("tr");
+                for (var i = 0; i < desArr.length; i++)  {
+                row[i+1].innerHTML = `<td>${desArr[i][0]}</td>
+                                      <td>${desArr[i][1]}</td>
+                                      <td>${desArr[i][2]}</td>
+                                      <td>${desArr[i][3]}</td>
+                                      <td>${desArr[i][4]}</td>`
+            }
+        }     
+</script>
+        
+</body>
+</html>
